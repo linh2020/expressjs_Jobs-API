@@ -5,20 +5,25 @@ const express = require("express");
 const app = express();
 
 const PORT = process.env.PORT || 5000;
+
+// DB Connection
 const connectDB = require("./db/connect");
+
+// Routers
+const authRouter = require("./routes/auth");
+const jobsRouter = require("./routes/jobs");
+
+// Middlewares
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-const router = require("./routes/main");
 
 // parsing
 app.use(express.static("./public"));
 app.use(express.json());
 
-app.use("/api/v1", router);
-
-app.get("/", (req, res) => {
-  res.status(200).json({ msg: `# Jobs API with Node JS Express and MongoDB` });
-});
+// Routes
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/jobs", jobsRouter);
 
 // error-handling middleware
 app.use(notFoundMiddleware);

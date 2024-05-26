@@ -31,7 +31,7 @@ app.use(errorHandlerMiddleware);
 
 const start = async () => {
   try {
-    connectDB(process.env.MONGO_URI);
+    await connectDB(process.env.MONGO_URI);
     app.listen(PORT, () =>
       console.log(`Express server is listening on port ${PORT}`)
     );

@@ -6,7 +6,7 @@ const { use } = require("express/lib/router");
 const auth = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!authHeader || !authHeader.startsWith("Bearer")) {
     throw new UnauthenticatedError("Invalid Authentication");
   }
 

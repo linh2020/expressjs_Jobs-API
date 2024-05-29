@@ -15,8 +15,17 @@ const auth = (req, res, next) => {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
     // Alternative Code
-    // console.log(payload); // {userId: '6656bceca0138e812452c6cc', name: 'Alex', iat: 1716960493, exp: 1719552493}
-    // const user = User.findById(payload.id).select("-password"); // '-'  to exclude that field from the result
+    // console.log(payload);
+    /*
+    { userId: '6656bceca0138e812452c6cc',
+      name: 'Alex',
+      iat: 1716960493,
+      exp: 1719552493
+    }
+     */
+
+    // '-'  to exclude that field from the result
+    // const user = User.findById(payload.id).select("-password");
     // req.user = user;
 
     req.user = { userId: payload.userId, name: payload.name };

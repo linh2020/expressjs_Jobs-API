@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 5000;
 
 // DB Connection
 const connectDB = require("./db/connect");
+const authenticateUser = require("./middleware/authentication");
 
 // Routers
 const authRouter = require("./routes/auth");
@@ -23,7 +24,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/jobs", jobsRouter);
+app.use("/api/v1/jobs", authenticateUser, jobsRouter);
 
 // error-handling middleware
 app.use(notFoundMiddleware);

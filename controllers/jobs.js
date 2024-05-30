@@ -9,13 +9,15 @@ const getAllJobs = async (req, res) => {
 
 // /:id
 const getJob = async (req, res) => {
-  console.log(req.user);
+  // console.log(req.user); // { userId: '6656bceca0138e812452c6cc', name: 'David' }
+  // console.log(req.params); // { id: '6656dcf3d843392674b62b96' }
 
   const {
     user: { userId },
     params: { id: jobId },
   } = req;
 
+  // console.log(userId, jobId); // 6656bceca0138e812452c6cc 6656dcf3d843392674b62b96
   const job = await Job.findOne({
     _id: jobId,
     createdBy: userId,
@@ -33,8 +35,25 @@ const createJob = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ job });
 };
 
-const updateJob = (req, res) => {
-  res.send("Update job");
+const updateJob = async (req, res) => {
+  const {
+    body: { company, position },
+    user: { userId },
+    params: { id: jobId },
+  } = req;
+
+  if (company === "" || position === "")
+    throw new BadRequestError(`Company or Position fields cannot be empty`);
+
+  const job = await Job.findOneAndUpdate(
+    { _id: jobId, createdBy: userId },
+    req.body,
+    { new: true, runValidators: true }
+  );
+
+  if (!job) throw new NotFoundError(`No job with id ${jobId}`);
+
+  res.status(StatusCodes.OK).json({ job });
 };
 
 const deleteJob = (req, res) => {

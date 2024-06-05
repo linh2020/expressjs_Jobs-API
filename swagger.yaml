@@ -1,0 +1,251 @@
+openapi: 3.1.0
+info:
+  title: Jobs API
+  contact: {}
+  version: "1.0"
+jsonSchemaDialect: https://spec.openapis.org/oas/3.1/dialect/base
+servers:
+  - url: https://expressjs-jobs-api-f8c76c5d04a6.herokuapp.com/api/v1
+    variables: {}
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register User
+      operationId: RegisterUser
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/RegisterUserRequest"
+                - examples:
+                    - name: Alex
+                      email: 112Alex123.linh@gmail.com
+                      password: 123testing
+              contentMediaType: application/json
+            example:
+              name: Alex
+              email: 112Alex123.linh@gmail.com
+              password: 123testing
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+    parameters: []
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login User
+      operationId: LoginUser
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/LoginUserRequest"
+                - examples:
+                    - email: 112Alex123.linh@gmail.com
+                      password: 123testing
+              contentMediaType: application/json
+            example:
+              email: 112Alex123.linh@gmail.com
+              password: 123testing
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+    parameters: []
+  /jobs:
+    post:
+      tags:
+        - Jobs
+      summary: Create Job
+      operationId: CreateJob
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreateJobRequest"
+                - examples:
+                    - company: google
+                      position: intern
+              contentMediaType: application/json
+            example:
+              company: google
+              position: intern
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    get:
+      tags:
+        - Jobs
+      summary: Get All Jobs
+      operationId: GetAllJobs
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    parameters: []
+
+  /jobs/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The jobs ID
+    get:
+      tags:
+        - Jobs
+      summary: Get A Single Job
+      operationId: GetASingleJob
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security:
+        - httpBearer: []
+
+    patch:
+      tags:
+        - Jobs
+      summary: Update A Job
+      operationId: UpdateAJob
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdateAJobRequest"
+                - examples:
+                    - company: Nvidia
+                      position: Back-end Dev
+              contentMediaType: application/json
+            example:
+              company: Nvidia
+              position: Back-end Dev
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security:
+        - httpBearer: []
+
+    delete:
+      tags:
+        - Jobs
+      summary: Delete A Job
+      operationId: DeleteAJob
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security:
+        - httpBearer: []
+
+components:
+  schemas:
+    RegisterUserRequest:
+      title: RegisterUserRequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      examples:
+        - name: Alex
+          email: 112Alex123.linh@gmail.com
+          password: 123testing
+
+    LoginUserRequest:
+      title: LoginUserRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      examples:
+        - email: 112Alex123.linh@gmail.com
+          password: 123testing
+
+    CreateJobRequest:
+      title: CreateJobRequest
+      required:
+        - company
+        - position
+      type: object
+      properties:
+        company:
+          type: string
+        position:
+          type: string
+      examples:
+        - company: google
+          position: intern
+
+    UpdateAJobRequest:
+      title: UpdateAJobRequest
+      required:
+        - company
+        - position
+      type: object
+      properties:
+        company:
+          type: string
+        position:
+          type: string
+      examples:
+        - company: Nvidia
+          position: Back-end Dev
+
+  securitySchemes:
+    httpBearer:
+      type: http
+      scheme: bearer
+
+security:
+  - httpBearer: []
+
+tags:
+  - name: Auth
+    description: ""
+  - name: Jobs
+    description: ""
